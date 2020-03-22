@@ -1,0 +1,72 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span>
+        Novo Livro
+    </a>
+</p>
+
+<form id="frmPesquisar" class="form-inline">
+    <div class="form-group">
+        <label class="sr-only">Titulo</label>
+        <input type="text" class="form-control" name="Title" placeholder="Titulo">
+    </div>
+    <div class="form-group">
+        <label class="sr-only">Autor</label>
+        <input type="text" class="form-control" name="Author" placeholder="Autor">
+    </div>
+    <div class="form-group">
+        <label class="sr-only">Ano</label>
+        <input type="text" class="form-control" name="YearEdition" placeholder="Ano">
+    </div>
+    <div class="form-group">
+        <label class="sr-only">Valor</label>
+        <input type="text" class="form-control" name="Value" placeholder="Valor">
+    </div>
+    <button type="button" id="btnPesquisar" class="btn btn-primary">Pesquisar</button>
+
+    <input type="hidden" name="pagina" value="1" />
+    <input type="hidden" name="registros" value="5" />
+
+</form>
+
+<div id="listagemDeLivros"></div>
+
+@section scripts{
+    
+    <script tye="text/javascript">
+
+        $(document).ready(configurarControles);
+
+        function configurarControles() {
+            $("#btnPesquisar").click(listarLivros);
+            listarLivros();
+        }
+
+        function paginar(valor) {
+
+            var elementoPagina = $("input[name='pagina']")
+
+            var paginalAtual = parseInt(elementoPagina.val());
+
+            elementoPagina.val(paginalAtual + valor);
+
+            listarLivros();
+
+        }
+
+        function listarLivros() {
+            $("#listagemDeLivros").load("@Url.Action("Listar")", $("#frmPesquisar").serialize());
+        }
+
+    </script>
+    
+    
+    }
